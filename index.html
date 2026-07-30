@@ -45,15 +45,15 @@
                             
                         </thead>
                         
-                        <tbody>
+                        <tbody id="account-table">
                             <tr>
                                 <td>Forex acc 1</td>
                                 <td>475624</td>
                                 <td>$10000</td>
                                 <td>Break Even</td>
                                 <td class="actions">
-                                    <button id="add-trade">Log</button>
-                                    <button id="delete-account">del</button>
+                                    <button class="add-trade">Log</button>
+                                    <button class="delete-account">del</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -68,14 +68,16 @@
         <div class="form-holder">
             <h3>Add Account</h3>
             <form id="add-acc-form" class="form">
-                <input type="text" placeholder="Account name">
-                <input type="text" placeholder="AccountId">
-                <input type="text" placeholder="Balance">
-                <button id="add-acc-btn">Add Account</button>
+                <input id="accName" type="text" placeholder="Account name" required>
+                <input id="accNumber" type="text" placeholder="AccountId" required>
+                <input id="accBalance" type="number" placeholder="Balance" required>
+                <button id="add-acc-btn" type="submit">Add Account</button>
             </form>
         </div>
     </div>
 
-    <script src="scripts/account.js"></script>
+    
+    <script src="scripts/firebase.js" type="module"></script>
+    <script src="scripts/account.js" type="module"></script>
 </body>
 </html>

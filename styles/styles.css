@@ -187,7 +187,7 @@ body{
     align-items: center;
 }
 
-#add-trade{
+.add-trade{
     background-color: var(--accent-blue);
     color: white;
     border: none;
@@ -199,7 +199,7 @@ body{
     transition: 0.2s ease;
 }
 
-#delete-account{
+.delete-account{
     background-color: red;
     color: white;
     border: none;
@@ -210,8 +210,8 @@ body{
     flex: 1;
     transition: 0.2s ease;
 }
-#add-trade:hover,
-#delete-account:hover {
+.add-trade:hover,
+.delete-account:hover {
     opacity: 0.6;
 }
 
@@ -221,7 +221,7 @@ body{
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     padding: 20px;

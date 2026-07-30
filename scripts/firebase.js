@@ -18,8 +18,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+export const app = initializeApp(firebaseConfig);
+export const db = getDatabase(app);
 
-const accountRef = ref(db, 'account');
-const tradesRef = ref(db, 'trades');
+export const accountRef = ref;
+export const pushAccount = push;
+export const liveOnValue = onValue;
