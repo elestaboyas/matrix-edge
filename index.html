@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/styles.css">
+    <title>Account Management</title>
+</head>
+<body>
+    <header>
+        <div class="logo"><h1>Matrix<span>Edge</span></h1></div>
+        <nav id="nav">
+            <a href="#">Dashboard</a>
+            <a href="#">Account</a>
+            <a href="#">Trades</a>
+        </nav>
+    </header>
+
+    <section id="account">
+        <div class="account-nav">
+            <button id="add-account">Add Account</button>
+            <button id="account-list">Account List</button>
+        </div>
+
+        <div class="account-main">
+            <button id="account-nav-mobile">+</button>
+            <div class="account-container">
+                <div class="account-stat">
+                    <div class="stat-card">Total Account</div>
+                    <div class="stat-card">Account</div>
+                    <div class="stat-card">Balance</div>
+                </div>
+
+                <div class="account-overview">
+                    <h2>Accounts Overview</h2>
+                    <table>
+                        
+                        <thead>
+                            
+                                <th>Account Name</th>
+                                <th>Account Id</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            
+                        </thead>
+                        
+                        <tbody>
+                            <tr>
+                                <td>Forex acc 1</td>
+                                <td>475624</td>
+                                <td>$10000</td>
+                                <td>Break Even</td>
+                                <td class="actions">
+                                    <button id="add-trade">Log</button>
+                                    <button id="delete-account">del</button>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal" id="modal">
+        <div class="form-holder">
+            <h3>Add Account</h3>
+            <form id="add-acc-form" class="form">
+                <input type="text" placeholder="Account name">
+                <input type="text" placeholder="AccountId">
+                <input type="text" placeholder="Balance">
+                <button id="add-acc-btn">Add Account</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts/account.js"></script>
+</body>
+</html>
