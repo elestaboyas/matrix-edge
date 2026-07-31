@@ -1,4 +1,5 @@
 import { db, accountRef, pushAccount, liveOnValue } from './firebase.js';
+import { openTradeModal } from './trades.js';
 
 const showModal = document.getElementById('account-nav-mobile');
 const addAccButton = document.getElementById('add-account');
@@ -58,10 +59,11 @@ function queryAccounts() {
             accountTable.innerHTML = '';
             snapshot.forEach((childSnapshot) => {
                 const account = childSnapshot.val();
+                const accountId = childSnapshot.key;
                 let accountName = account.name;
                 let accountNumber = account.number;
                 let accountBalance = account.startingbalance;
-                addAccountToDOM(accountName, accountNumber, accountBalance);
+                addAccountToDOM(accountName, accountNumber, accountBalance, accountId);
             })
         } else {
             const accountTable = document.getElementById('account-table');
@@ -71,7 +73,7 @@ function queryAccounts() {
     })
 }
 
-function addAccountToDOM(accountName, accountNumber, accountBalance) {
+function addAccountToDOM(accountName, accountNumber, accountBalance, accountId) {
     const accountTable = document.getElementById('account-table');
 
     let row = document.createElement('tr');
@@ -80,23 +82,31 @@ function addAccountToDOM(accountName, accountNumber, accountBalance) {
     let balanceCell = document.createElement('td');
     let statuscell = document.createElement('td');
     let actionCell = document.createElement('td');
-    let actionLog = document.createElement('button');
-    let actionDel = document.createElement('button');
+    let actionLogBtn = document.createElement('button');
+    let actionDelBtn = document.createElement('button');
 
     nameCell.textContent = accountName;
     numberCell.textContent = accountNumber;
     balanceCell.textContent = accountBalance;
     statuscell.textContent = 'break even'; // to be udated based on the account balance after calculations
-    nameCell.textContent = accountName;
 
-    actionLog.classList.add('add-trade')
-    actionLog.textContent = 'Log';
-    actionDel.classList.add('delete-account')
-    actionDel.textContent = 'Del';
+    actionLogBtn.classList.add('add-trade')
+    actionLogBtn.textContent = 'Log';
+    actionDelBtn.classList.add('delete-account')
+    actionDelBtn.textContent = 'Del';
     actionCell.classList.add('actions');
 
-    actionCell.appendChild(actionLog);
-    actionCell.appendChild(actionDel);
+    actionLogBtn.addEventListener('click', () => {
+        openTradeModal(accountId);
+        console.log(accountId);
+    });
+
+    actionDelBtn.addEventListener('click', () => {
+        console.log('Account to be deleted with ID:',accountId)
+    });
+
+    actionCell.appendChild(actionLogBtn);
+    actionCell.appendChild(actionDelBtn);
 
     row.appendChild(nameCell);
     row.appendChild(numberCell);

@@ -55,6 +55,7 @@ body{
     font-size:18px;
     font-weight: 700;
     border-bottom: 3px solid var(--accent-blue);
+    background-color: var(--secondary-bg);
     transition: all 0.3s ease;
 }
 
@@ -215,6 +216,8 @@ body{
     opacity: 0.6;
 }
 
+
+
 /******** modal ********/
 
 .modal {
@@ -278,6 +281,13 @@ body{
     opacity: 0.5;
 }
 
+.radio-label {
+    display: flex;
+    align-self: flex-start;
+    color: var(--text);
+    font-size: 12px;
+}
+
 @media (max-width: 768px) {
 
     .account-main {
@@ -339,4 +349,66 @@ body{
     #account-nav-mobile {
         display: block;
     }
+}
+
+.hide-screen {
+    display: none !important;
+    border-bottom: none;
+    background-color: transparent; 
+}
+
+
+/********** Account Screen ************/
+
+#trade {
+    width: 100%;
+}
+
+.trade-container {
+    padding: 0 15%;
+}
+
+.trade-stats {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.trade-stats .trade-stat-card {
+    background-color: var(--primary-bg);
+    color: var(--text);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    flex: 1;
+    margin-right: 10px;
+}
+
+.trade-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.trade-table thead th, .trade-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 3px solid var(--secondary-bg);
+}
+
+.trade-table thead th {
+    background-color: var(--table-h-bg);
+    color: var(--head-text);
+}
+
+.trade-table tbody tr {
+    background-color: var(--table-row-bg);
+    transition: background-color 0.3s ease;
+}
+
+.trade-table tbody tr:hover {
+    background-color: var(--table-row-hover-bg);
+}
+
+.trade-table td {
+    color: var(--text);
 }

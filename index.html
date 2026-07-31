@@ -10,13 +10,13 @@
     <header>
         <div class="logo"><h1>Matrix<span>Edge</span></h1></div>
         <nav id="nav">
-            <a href="#">Dashboard</a>
-            <a href="#">Account</a>
-            <a href="#">Trades</a>
+            <a id="dashboad-tap" href="#">Dashboard</a>
+            <a id="account-tap" href="#">Account</a>
+            <a id="trade-tap" href="#">Trades</a>
         </nav>
     </header>
 
-    <section id="account">
+    <section id="account" >
         <div class="account-nav">
             <button id="add-account">Add Account</button>
             <button id="account-list">Account List</button>
@@ -64,6 +64,61 @@
         </div>
     </section>
 
+    <section id="dashboard" class="hide-screen">
+        <h1>This is Dashoboard screen</h1>
+    </section>
+
+    <section id="trade" class="hide-screen">
+        <div class="trade-container">
+            <div class="trade-stats">
+                <div class="trade-stat-card">
+                    <p>Total Trades</p>
+                    <p>128</p>
+                </div>
+                <div class="trade-stat-card">
+                    <p>Winning trade</p>
+                    <p>128</p>
+                </div>
+                <div class="trade-stat-card">
+                    <p>Losing Trade</p>
+                    <p>128</p>
+                </div>
+                <div class="trade-stat-card">
+                    <p>Net Profit</p>
+                    <p>128</p>
+                </div>
+            </div>
+
+            <div class="trade-table">
+                <table>
+                    <thead>
+                        <th>date</th>
+                        <th>symbol</th>
+                        <th>Type</th>
+                        <th>size</th>
+                        <th>P/L</th>
+                        <th>Result</th>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>04/05/2026</td>
+                            <td>EURUSD</td>
+                            <td>BUY</td>
+                            <td>0.15</td>
+                            <td>$75</td>
+                            <td>
+                                <p>Win</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+
+
     <div class="modal" id="modal">
         <div class="form-holder">
             <h3>Add Account</h3>
@@ -76,7 +131,7 @@
         </div>
     </div>
 
-    
+    <script src="scripts/app.js"></script>
     <script src="scripts/firebase.js" type="module"></script>
     <script src="scripts/account.js" type="module"></script>
 </body>
