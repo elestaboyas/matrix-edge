@@ -146,6 +146,7 @@ body{
     text-align: center;
     flex: 1;
     margin-right: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .account-overview h2 {
@@ -156,6 +157,7 @@ body{
 .account-overview table {
     width: 100%;
     border-collapse: collapse;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .account-overview thead th, .account-overview td {
@@ -216,6 +218,63 @@ body{
     opacity: 0.6;
 }
 
+/********** Account Screen ************/
+
+#trade {
+    width: 100%;
+}
+
+.trade-container {
+    padding: 0 15%;
+}
+
+.trade-stats {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.trade-stats .trade-stat-card {
+    background-color: var(--primary-bg);
+    color: var(--text);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    flex: 1;
+    margin-right: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.trade-table table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.trade-table thead th, .trade-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 3px solid var(--secondary-bg);
+}
+
+.trade-table thead th {
+    background-color: var(--table-h-bg);
+    color: var(--head-text);
+}
+
+.trade-table tbody tr {
+    background-color: var(--table-row-bg);
+    transition: background-color 0.3s ease;
+}
+
+.trade-table tbody tr:hover {
+    background-color: var(--table-row-hover-bg);
+}
+
+.trade-table td {
+    color: var(--text);
+}
+
 
 
 /******** modal ********/
@@ -246,6 +305,20 @@ body{
     text-align: center;
     margin: 0.5rem 0;
     color: var(--text);
+}
+
+.form-holder h3 span {
+    float: right;
+    font-weight: 100;
+    font-size: small;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 3px;
+    transition: 0.2s ease;
+}
+
+.form-holder h3 span:hover {
+    background-color: rgba(255, 0, 0, 0.8);
 }
 
 .form-holder form {
@@ -303,6 +376,9 @@ body{
         margin-bottom: 10px;
     }
 
+    .trade-container {
+        padding: 0 4%;
+    }
 
     table,
     thead,
@@ -330,15 +406,21 @@ body{
         padding: 8px 0;
     }
 
-    td::before {
+    .trade-table td::before {
         font-weight: bold;
     }
 
-    td:nth-child(1)::before { content: "Account Name"; }
-    td:nth-child(2)::before { content: "Account Id"; }
-    td:nth-child(3)::before { content: "Balance"; }
-    td:nth-child(4)::before { content: "Status"; }
-    td:nth-child(5)::before { content: "Action"; }
+    .account-overview td:nth-child(1)::before { content: "Account Name"; }
+    .account-overview td:nth-child(2)::before { content: "Account Id"; }
+    .account-overview td:nth-child(3)::before { content: "Balance"; }
+    .account-overview td:nth-child(4)::before { content: "Status"; }
+    .account-overview td:nth-child(5)::before { content: "Action"; }
+
+    .trade-table td:nth-child(1)::before { content: "Date"; }
+    .trade-table td:nth-child(2)::before { content: "Symbol"; }
+    .trade-table td:nth-child(3)::before { content: "Type"; }
+    .trade-table td:nth-child(4)::before { content: "Size"; }
+    .trade-table td:nth-child(5)::before { content: "P/L"; }
 }
 
 @media (max-width: 600px) {
@@ -358,57 +440,3 @@ body{
 }
 
 
-/********** Account Screen ************/
-
-#trade {
-    width: 100%;
-}
-
-.trade-container {
-    padding: 0 15%;
-}
-
-.trade-stats {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px;
-}
-
-.trade-stats .trade-stat-card {
-    background-color: var(--primary-bg);
-    color: var(--text);
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;
-    flex: 1;
-    margin-right: 10px;
-}
-
-.trade-table table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.trade-table thead th, .trade-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 3px solid var(--secondary-bg);
-}
-
-.trade-table thead th {
-    background-color: var(--table-h-bg);
-    color: var(--head-text);
-}
-
-.trade-table tbody tr {
-    background-color: var(--table-row-bg);
-    transition: background-color 0.3s ease;
-}
-
-.trade-table tbody tr:hover {
-    background-color: var(--table-row-hover-bg);
-}
-
-.trade-table td {
-    color: var(--text);
-}

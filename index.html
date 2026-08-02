@@ -100,7 +100,7 @@
                         <th>Result</th>
                     </thead>
 
-                    <tbody>
+                    <tbody id="trade-table-body">
                         <tr>
                             <td>04/05/2026</td>
                             <td>EURUSD</td>
@@ -120,19 +120,14 @@
 
 
     <div class="modal" id="modal">
-        <div class="form-holder">
-            <h3>Add Account</h3>
-            <form id="add-acc-form" class="form">
-                <input id="accName" type="text" placeholder="Account name" required>
-                <input id="accNumber" type="text" placeholder="AccountId" required>
-                <input id="accBalance" type="number" placeholder="Balance" required>
-                <button id="add-acc-btn" type="submit">Add Account</button>
-            </form>
+        <div class="form-holder" id="form-holder">
+            
         </div>
     </div>
 
-    <script src="scripts/app.js"></script>
+    <script src="scripts/app.js" type="module"></script>
     <script src="scripts/firebase.js" type="module"></script>
     <script src="scripts/account.js" type="module"></script>
+    <script src="scripts/trades.js" type="module"></script>
 </body>
 </html>

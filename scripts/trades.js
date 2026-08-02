@@ -17,6 +17,7 @@ function addTrade() {
     const profitOrLossInput = document.createElement('input');
     const submitBtn = document.createElement('button');
     const radiolabel = document.createElement('label');
+    const closeModalBtn = document.createElement('span');
 
     title.textContent = 'Add Trade';
     form.id = 'tade-form';
@@ -39,14 +40,13 @@ function addTrade() {
         required: true,
         step: '0.01',
     });
-    // Object.assign(radiolabel, {
-    //     name: 'trade-type',
-    //     for: 'trade-type',
-    //     textContent: 'Type',
-    //     required: true,
-    //     id: 'radioLabel'
-    // });
-
+    Object.assign(closeModalBtn, {
+        id: 'close-modal-btn',
+        textContent: 'X'
+    });
+    
+    
+    title.appendChild(closeModalBtn)
     form.appendChild(symbolInput);
     form.appendChild(lotSizeInput);
     form.appendChild(profitOrLossInput);
@@ -79,8 +79,10 @@ function addTrade() {
         form.appendChild(label);
     });
 
-
-    //form.appendChild(radiolabel)
+    closeModalBtn.addEventListener('click', e => {
+        e.preventDefault();
+        modal.style.display = 'none';
+    }); 
 
     Object.assign(submitBtn, {
         id: 'add-trade-btn',
@@ -90,7 +92,8 @@ function addTrade() {
 
     form.appendChild(submitBtn);
     modalDisplay.innerHTML = '';
-    modalDisplay.appendChild(form)
+    modalDisplay.appendChild(title)
+    modalDisplay.appendChild(form);
 
 }
 
@@ -117,21 +120,115 @@ function saveTrade(accountId) {
             type: entryType.value,
             size: Number(size.value),
             profnLoss: Number(profnLoss.value)
-        }
+        };
 
-        saveInDb(newTrade)
-        document.getElementById('tade-form').reset()
-        document.getElementById('modal').style.display = 'none'
+        saveInDb(newTrade);
+        document.getElementById('tade-form').reset();
+        document.getElementById('modal').style.display = 'none';
     });
 }
 
 async function saveInDb(trade) {
     try {
-        const tradeRef = accountRef(db, 'trades')
-        const pushtrade = await pushAccount(tradeRef, trade)
-        console.log('trade saved') 
+        const tradeRef = accountRef(db, 'trades');
+        const pushtrade = await pushAccount(tradeRef, trade);
+        console.log('trade saved') ;
     } catch (error) {
         console.error('Error saving trade:', error);
+    };
+}
+
+ export function queryTrade() {
+    const tradeRef = accountRef(db, 'trades');
+    const tradeInDb = liveOnValue(tradeRef, snapshot => {
+        const tableBody = document.getElementById('trade-table-body');
+        tableBody.innerHTML = '';
+        if(snapshot.exists()) {
+            snapshot.forEach(childsnapshot => {
+                const tradeKey = childsnapshot.key;
+                const trade = childsnapshot.val();
+
+                const accountId = trade.accountId;
+                const date =  new Date(trade.entryDate).toLocaleDateString();
+                const size = trade.size;
+                const type = trade.type;
+                const symbol = trade.symbol;
+                const profnLoss = trade.profnLoss;
+
+                addTradeToDom(date, symbol, type, size, profnLoss, tradeKey);
+            })
+        } else {
+            Document.getElementById('trade').innerHTML = 'No trade found';
+        }
+    });
+}
+
+function addTradeToDom(date, symbol, type, size, profnLoss, tradekey) {
+    const tableBody = document.getElementById('trade-table-body');
+
+    const row = document.createElement('tr');
+    const dateCell = document.createElement('td');
+    const symbolCell = document.createElement('td');
+    const typeCell = document.createElement('td');
+    const sizeCell = document.createElement('td');
+    const profnLossCell = document.createElement('td');
+    const resultCell = document.createElement('td');
+
+    dateCell.textContent = date;
+    symbolCell.textContent = symbol;
+    typeCell.textContent = type;
+    sizeCell.textContent = size;
+    profnLossCell.textContent = `$${profnLoss}`;
+
+    if(profnLoss > 0) {
+        const winResult = document.createElement('p');
+
+        winResult.textContent = 'Win';
+        winResult.style.backgroundColor = 'green';
+        winResult.style.borderRadius = '3px';
+        winResult.style.padding = '2px 3px';
+        winResult.style.textAlign = 'center';
+
+        resultCell.appendChild(winResult)
+
+        profnLossCell.style.color = 'green';
+        
+    } else if (profnLoss < 0) {
+        const lossResult = document.createElement('p');
+
+        lossResult.textContent = 'Loss';
+        lossResult.style.backgroundColor = 'red';
+        lossResult.style.borderRadius = '3px';
+        lossResult.style.padding = '2px 3px';
+        lossResult.style.textAlign = 'center';
+
+        resultCell.appendChild(lossResult)
+        profnLossCell.style.color = 'red';
+    } else {
+        const breakEvenResult = document.createElement('p');
+
+        breakEvenResult.textContent = 'Break Even';
+        breakEvenResult.style.backgroundColor = 'grey';
+        breakEvenResult.style.borderRadius = '3px';
+        breakEvenResult.style.padding = '2px 3px';
+        breakEvenResult.style.textAlign = 'center';
+
+        resultCell.appendChild(breakEvenResult)
+        profnLossCell.style.color = 'grey';
     }
+
+    row.addEventListener('dbclick', e => {
+        e.preventDefault();
+        console.log('Clicked trade with Id:', tradekey)
+        //event to update trade. trade cannot be Deleted !!! only update will be available
+    });
+
+    row.appendChild(dateCell);
+    row.appendChild(symbolCell);
+    row.appendChild(typeCell);
+    row.appendChild(sizeCell);
+    row.appendChild(profnLossCell);
+    row.appendChild(resultCell);
+    tableBody.appendChild(row)
 }
 

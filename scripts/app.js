@@ -1,3 +1,5 @@
+import { queryTrade } from "./trades.js";
+
 const dashboardTap = document.getElementById('dashboad-tap');
 const accountTap = document.getElementById('account-tap');
 const tradeTap = document.getElementById('trade-tap');
@@ -27,5 +29,6 @@ accountTap.addEventListener('click', (e) => {
 
 tradeTap.addEventListener('click', (e) => {
     e.preventDefault(); 
-    showScreen(tradeScreen); 
+    showScreen(tradeScreen);
+    queryTrade();
     });

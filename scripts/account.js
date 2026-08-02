@@ -5,38 +5,110 @@ const showModal = document.getElementById('account-nav-mobile');
 const addAccButton = document.getElementById('add-account');
 const modal = document.getElementById('modal');
 // firebase variables
-const accForm = document.getElementById('add-acc-form');
-const accFormBtn = document.getElementById('add-acc-btn');
-const accNameInput = document.querySelector('#accName');
-const accNumberInput = document.querySelector('#accNumber');
-const accBalanceInput = document.querySelector('#accBalance');
+// const accNameInput = document.querySelector('#accName');
+// const accNumberInput = document.querySelector('#accNumber');
+// const accBalanceInput = document.querySelector('#accBalance');
+// const innerModal = document.getElementById('form-holder');
 
 // always displace account in the table when the page loads
 queryAccounts();
 
-showModal.addEventListener('click', () => {
-    modal.style.display = 'flex'
-    console.log('modal is visible')
-});
-
-addAccButton.addEventListener('click', () => {
-    modal.style.display = 'flex'
-    console.log('model Shown')
-});
-
-accFormBtn.addEventListener('click', (e) => {
+showModal.addEventListener('click', (e) => {
     e.preventDefault();
-
-    let newAccount = {
-        name: accNameInput.value.trim(),
-        number: accNumberInput.value.trim(),
-        startingbalance: Number(accBalanceInput.value)
-    };
-
-    saveAccount(newAccount);
-    modal.style.display = 'none'
-    accForm.reset();
+    addAccModal();
 });
+
+addAccButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    addAccModal();
+});
+
+function addAccModal() {
+    const formHolder = document.querySelector('.form-holder');
+    formHolder.innerHTML = '';
+    modal.style.display = 'flex';
+    console.log('modal visible')
+    addAccountForm();
+}
+
+function addAccountForm() {
+    const formHolder = document.querySelector('.form-holder');
+
+    const headerText = document.createElement('h3');
+    const form = document.createElement('form');
+    const accountName = document.createElement('input');
+    const accountId = document.createElement('input');
+    const accountBalance = document.createElement('input');
+    const submitFormBtn = document.createElement('button');
+    const closeModalBtn = document.createElement('span');
+
+    headerText.textContent = 'Add Account';
+
+    Object.assign(form, {
+        id: 'form',
+        className: 'add-acc-form'
+    })
+    Object.assign(accountName, {
+        id: 'accName',
+        type: 'text',
+        placeholder: 'Account name',
+        required: true
+    });
+    Object.assign(accountId, {
+        id: 'accNumber',
+        type: 'text',
+        placeholder: 'AccountId',
+        required: true
+    });
+    Object.assign(accountBalance, {
+        id: 'accBalance',
+        type: 'text',
+        placeholder: 'Balance',
+        required: true
+    });
+    Object.assign(submitFormBtn, {
+        id: 'add-acc-btn',
+        type: 'submit',
+        textContent: 'Add Account'
+    });
+    Object.assign(closeModalBtn, {
+        id: 'close-modal-btn',
+        textContent: 'X'
+    });
+
+    closeModalBtn.addEventListener('click', e => {
+        e.preventDefault();
+        modal.style.display = 'none';
+    }); 
+
+    submitFormBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const accNameInput = document.getElementById('accName');
+        const accIdInput = document.getElementById('accNumber');
+        const accBalanceInput = document.getElementById('accBalance');
+
+        let newAccount = {
+            name: accNameInput.value.trim(),
+            number: accIdInput.value.trim(),
+            startingbalance: Number(accBalanceInput.value)
+        };
+
+        saveAccount(newAccount);
+        modal.style.display = 'none'
+        form.reset();
+    });
+
+    headerText.appendChild(closeModalBtn)
+    form.appendChild(accountName);
+    form.appendChild(accountId);
+    form.appendChild(accountBalance);
+    form.appendChild(submitFormBtn);
+
+    formHolder.appendChild(headerText);
+    formHolder.appendChild(form);
+    
+}
 
 async function saveAccount(account) {
     try {
@@ -47,8 +119,6 @@ async function saveAccount(account) {
         console.error('Error saving account:', error);
     }
 }
-
-
 
 function queryAccounts() {
     const ref = accountRef(db, 'accounts');
