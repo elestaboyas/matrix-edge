@@ -123,18 +123,30 @@ async function saveAccount(account) {
 function queryAccounts() {
     const ref = accountRef(db, 'accounts');
     const accInDb = liveOnValue(ref, (snapshot) => {
-
+        let accountList = []
         if (snapshot.exists()) {
             const accountTable = document.getElementById('account-table');
             accountTable.innerHTML = '';
             snapshot.forEach((childSnapshot) => {
                 const account = childSnapshot.val();
                 const accountId = childSnapshot.key;
-                let accountName = account.name;
-                let accountNumber = account.number;
-                let accountBalance = account.startingbalance;
-                addAccountToDOM(accountName, accountNumber, accountBalance, accountId);
+                // let accountName = account.name;
+                // let accountNumber = account.number;
+                // let accountBalance = account.startingbalance;
+
+                const accountObj = {
+                    accountId: accountId,
+                    accountName: account.name,
+                    accountNumber: account.number,
+                    accountBalance: account.startingbalance
+                };
+
+                accountList.push(accountObj);
+
+                //addAccountToDOM(accountName, accountNumber, accountBalance, accountId);
             })
+
+            pagnation(accountList)
         } else {
             const accountTable = document.getElementById('account-table');
             accountTable.innerHTML = '<tr>No account found</tr>'
@@ -187,6 +199,74 @@ function addAccountToDOM(accountName, accountNumber, accountBalance, accountId) 
     accountTable.appendChild(row);
 }
 
+function pagnation(list) {
+    const accountList = list;
+
+    const btnContainer = document.createElement('div');
+    const prevBtn = document.createElement('button');
+    const nextBtn = document.createElement('button');
+    const pageNum = document.createElement('p');
+
+    btnContainer.className = 'btn-container'
+
+    let currentPage = 1;
+    const rowsPerPage = 5;
+    // let start = (currentPage - 1) * rowsPerPage;
+    // let end = start + rowsPerPage;
+    let totalPages = Math.ceil(accountList.length / rowsPerPage);
+    
+    // let tradeRows = tradeList.slice(start, end);
+    renderPagnation(currentPage, accountList, rowsPerPage)
+
+    prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (currentPage > 1) {
+            currentPage--;
+            const tableBody = document.getElementById('account-table');
+            tableBody.innerHTML = '';
+            renderPagnation(currentPage, accountList, rowsPerPage);
+            pageNum.textContent = `${currentPage} of ${totalPages}`
+            console.log('Previous Page', pageNum);
+        }
+    });
+    nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            currentPage++;
+            const tableBody = document.getElementById('account-table');
+            tableBody.innerHTML = '';
+            renderPagnation(currentPage, accountList, rowsPerPage);
+            pageNum.textContent = `${currentPage} of ${totalPages}`
+            console.log('Next Page', pageNum);
+        }
+    });
+
+    pageNum.textContent = `${currentPage} of ${totalPages}`;
+    prevBtn.textContent = '<';
+    nextBtn.textContent = '>';
+    btnContainer.appendChild(prevBtn);
+    btnContainer.appendChild(pageNum);
+    btnContainer.appendChild(nextBtn);
+    document.querySelector('.btn-con').innerHTML = '';
+    document.querySelector('.btn-con').appendChild(btnContainer);
+}
+
+function renderPagnation(currentPage, accountList, rowsPerPage) {
+
+    let start = (currentPage - 1) * rowsPerPage;
+    let end = start + rowsPerPage;
+    let accountRows = accountList.slice(start, end);
+
+    accountRows.forEach(account => {
+        const accountId = account.accountId;
+        const accountName = account.accountName;
+        const accountNumber = account.accountNumber;
+        const accountBalance = account.accountBalance;
+
+        addAccountToDOM(accountName, accountNumber, accountBalance, accountId);
+    });
+}
 
 
 

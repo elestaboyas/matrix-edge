@@ -139,6 +139,7 @@ async function saveInDb(trade) {
 }
 
  export function queryTrade() {
+    let tradeList = [];
     const tradeRef = accountRef(db, 'trades');
     const tradeInDb = liveOnValue(tradeRef, snapshot => {
         const tableBody = document.getElementById('trade-table-body');
@@ -148,15 +149,29 @@ async function saveInDb(trade) {
                 const tradeKey = childsnapshot.key;
                 const trade = childsnapshot.val();
 
-                const accountId = trade.accountId;
-                const date =  new Date(trade.entryDate).toLocaleDateString();
-                const size = trade.size;
-                const type = trade.type;
-                const symbol = trade.symbol;
-                const profnLoss = trade.profnLoss;
+                // const accountId = trade.accountId;
+                // const date =  new Date(trade.entryDate).toLocaleDateString();
+                // const size = trade.size;
+                // const type = trade.type;
+                // const symbol = trade.symbol;
+                // const profnLoss = trade.profnLoss;
 
-                addTradeToDom(date, symbol, type, size, profnLoss, tradeKey);
+                const tradeObj = {
+                    tradeId: tradeKey,
+                    accountId: trade.accountId,
+                    date: new Date(trade.entryDate).toLocaleDateString(),
+                    size: trade.size,
+                    type: trade.type,
+                    symbol: trade.symbol,
+                    profnLoss: trade.profnLoss
+                }
+
+                tradeList.push(tradeObj)
+                console.log('object is appeded')
+
+                //addTradeToDom(date, symbol, type, size, profnLoss, tradeKey);
             })
+            pagnation(tradeList)
         } else {
             Document.getElementById('trade').innerHTML = 'No trade found';
         }
@@ -220,7 +235,7 @@ function addTradeToDom(date, symbol, type, size, profnLoss, tradekey) {
     row.addEventListener('dbclick', e => {
         e.preventDefault();
         console.log('Clicked trade with Id:', tradekey)
-        //event to update trade. trade cannot be Deleted !!! only update will be available
+        //button to update trade. trade cannot be Deleted !!! only update will be available
     });
 
     row.appendChild(dateCell);
@@ -230,5 +245,77 @@ function addTradeToDom(date, symbol, type, size, profnLoss, tradekey) {
     row.appendChild(profnLossCell);
     row.appendChild(resultCell);
     tableBody.appendChild(row)
+}
+
+function pagnation(list) {
+    const tradeList = list;
+
+    const btnContainer = document.createElement('div');
+    const prevBtn = document.createElement('button');
+    const nextBtn = document.createElement('button');
+    const pageNum = document.createElement('p');
+
+    btnContainer.className = 'btn-container'
+
+    let currentPage = 1;
+    const rowsPerPage = 5;
+    // let start = (currentPage - 1) * rowsPerPage;
+    // let end = start + rowsPerPage;
+    let totalPages = Math.ceil(tradeList.length / rowsPerPage);
+    
+    // let tradeRows = tradeList.slice(start, end);
+    renderPagnation(currentPage, tradeList, rowsPerPage)
+
+    prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (currentPage > 1) {
+            currentPage--;
+            const tableBody = document.getElementById('trade-table-body');
+            tableBody.innerHTML = '';
+            renderPagnation(currentPage, tradeList, rowsPerPage);
+            pageNum.textContent = `${currentPage} of ${totalPages}`
+            console.log('Previous Page', pageNum);
+        }
+    });
+    nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            currentPage++;
+            const tableBody = document.getElementById('trade-table-body');
+            tableBody.innerHTML = '';
+            renderPagnation(currentPage, tradeList, rowsPerPage);
+            pageNum.textContent = `${currentPage} of ${totalPages}`
+            console.log('Next Page', pageNum);
+        }
+    });
+
+    pageNum.textContent = `${currentPage} of ${totalPages}`;
+    prevBtn.textContent = '<';
+    nextBtn.textContent = '>';
+    btnContainer.appendChild(prevBtn);
+    btnContainer.appendChild(pageNum);
+    btnContainer.appendChild(nextBtn);
+    document.querySelector('.btn-con-trade').innerHTML = '';
+    document.querySelector('.btn-con-trade').appendChild(btnContainer);
+}
+
+function renderPagnation(currentPage, tradeList, rowsPerPage) {
+
+    let start = (currentPage - 1) * rowsPerPage;
+    let end = start + rowsPerPage;
+    let tradeRows = tradeList.slice(start, end);
+
+    tradeRows.forEach(trade => {
+        const tradeId = trade.tradeId;
+        const accountId = trade.accountId;
+        const date = trade.date;
+        const size = trade.size;
+        const type = trade.type;
+        const symbol = trade.symbol;
+        const profnLoss = trade.profnLoss;
+
+        addTradeToDom(date, symbol, type, size, profnLoss, tradeId)
+    });
 }
 
