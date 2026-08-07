@@ -1,4 +1,6 @@
-import { queryTrade } from "./trades.js";
+import { startQueryAccounts } from './account.js';
+import { startQueryTrade } from './trades.js';
+
 
 const dashboardTap = document.getElementById('dashboad-tap');
 const accountTap = document.getElementById('account-tap');
@@ -30,5 +32,8 @@ accountTap.addEventListener('click', (e) => {
 tradeTap.addEventListener('click', (e) => {
     e.preventDefault(); 
     showScreen(tradeScreen);
-    queryTrade();
+    //queryTrade(); new function will come from tradeUI.js
     });
+
+startQueryAccounts();
+startQueryTrade();
