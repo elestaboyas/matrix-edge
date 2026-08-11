@@ -1,3 +1,5 @@
+import { renderAccStats, renderTradesStats } from "./dashboardUI.js";
+
 function accountPerformance(accountList, tradesList) {
     const numOfAccount = accountList.length;
     const numOfTrades = tradesList.length;
@@ -37,16 +39,11 @@ function accountPerformance(accountList, tradesList) {
     let winRate = numOfTrades > 0 ? ((winningTrades / (numOfTrades - BreakEvenTrades)) * 100).toFixed(2) : 0;
     console.log(winRate)
 
-    return{numOfAccount, numOfTrades, currentBalance, totalProfit, totalLoss, returnPercentage, winningTrades, losingTrades, BreakEvenTrades}
+    renderAccStats(numOfAccount, winRate, currentBalance);
+    renderTradesStats(numOfTrades, winningTrades, losingTrades, totalProfit);
 }
 
 export function startAnalytics(allAccount, allTrades) {
-    // console.log(allAccount)
+    
     accountPerformance(allAccount, allTrades);
 }
-
-// console.log('current balance ',currentBalance)
-//     console.log('gain or loss',(currentBalance - totalAccBalance))
-//     console.log('profit ',totalProfit)
-//     console.log('Loss ',totalLoss)
-//     console.log(returnPercentage)

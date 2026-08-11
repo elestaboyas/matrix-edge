@@ -136,17 +136,46 @@ body{
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    gap: 15px;
+    box-sizing: border-box;
 }
 
 .account-main .stat-card {
     background-color: var(--primary-bg);
     color: var(--text);
-    padding: 20px;
+    padding: 5px;
     border-radius: 5px;
     text-align: center;
     flex: 1;
-    margin-right: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    height: 100px;
+    line-height: 1.6;
+    /* background-image: url('/assets/images/img-breakEven.png'); */
+    background-position: center;
+    background-size: cover;
+    position: relative;
+
+}
+
+.stat-card .overlay {
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    /* width: 100%; */
+}
+
+.stat-card .stats-container {
+    position: relative;
+    background: transparent;
+}
+
+.stat-card p {
+    font-size: medium;
+}
+
+.stat-card h4 {
+    font-size: 25px;
+    
 }
 
 .account-overview h2 {
@@ -247,6 +276,31 @@ body{
     flex: 1;
     margin-right: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    height: 100px;
+    line-height: 1.6;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}
+
+.trade-stat-card .overlay {
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    /* width: 100%; */
+}
+
+.trade-stat-card .stats-container {
+    position: relative;
+    background: transparent;
+}
+
+.trade-stat-card p {
+    font-size: medium;
+}
+
+.trade-stat-card h4 {
+    font-size: 25px;
 }
 
 .trade-table table {
@@ -400,7 +454,7 @@ body{
         padding: 10px;
     }
 
-    .account-stat,
+    /* .account-stat, */
     .trade-stats {
         flex-direction: column;
     }
@@ -408,6 +462,12 @@ body{
     .account-main .stat-card {
         margin-right: 0;
         margin-bottom: 10px;
+        height: 90px;
+        padding: 10px;
+    }
+
+    .stat-card p {
+    font-size: small;
     }
 
     .trade-container {

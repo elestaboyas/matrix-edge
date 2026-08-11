@@ -17,5 +17,4 @@ export function refreshAPP() {
     accountPagnation(state.accounts);
     tradesPagnation(state.trades);
     startAnalytics(state.accounts, state.trades);
-
 }
