@@ -54,8 +54,6 @@ body{
     padding: 10px 20px;
     font-size:18px;
     font-weight: 700;
-    border-bottom: 3px solid var(--accent-blue);
-    background-color: var(--secondary-bg);
     transition: all 0.3s ease;
 }
 
@@ -150,7 +148,6 @@ body{
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     height: 100px;
     line-height: 1.6;
-    /* background-image: url('/assets/images/img-breakEven.png'); */
     background-position: center;
     background-size: cover;
     position: relative;
@@ -161,7 +158,7 @@ body{
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
     position: absolute;
-    /* width: 100%; */
+    border-radius: 5px;
 }
 
 .stat-card .stats-container {
@@ -271,10 +268,9 @@ body{
     background-color: var(--primary-bg);
     color: var(--text);
     padding: 20px;
-    border-radius: 5px;
     text-align: center;
+    border-radius: 5px;
     flex: 1;
-    margin-right: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     height: 100px;
     line-height: 1.6;
@@ -287,7 +283,8 @@ body{
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
     position: absolute;
-    /* width: 100%; */
+    border-radius: 5px;
+    
 }
 
 .trade-stat-card .stats-container {
@@ -377,7 +374,7 @@ body{
     flex-wrap: wrap;
 }
 
-.form-holder {
+.remove-modal-content, .form-holder {
     background-color: var(--dark-blue);
     width: 100%;
     max-width: 580px;
@@ -388,7 +385,7 @@ body{
     position: relative;
 }
 
-.form-holder h3 {
+.remove-modal-content h4, .form-holder h3 {
     text-align: center;
     margin: 0.5rem 0;
     color: var(--text);
@@ -413,7 +410,7 @@ body{
     justify-content: space-between;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
     width: 100%;
 }
 
@@ -423,11 +420,16 @@ body{
     border-radius: 5px;
     border: none;
     box-sizing: border-box;
+    outline: none;
 }
 
 .form-holder input {
     background-color: var(--primary-bg);
     color: var(--text);
+}
+
+.form-holder input:focus {
+    border: 1px solid var(--accent-blue);
 }
 
 .form-holder button {
@@ -446,6 +448,38 @@ body{
     align-self: flex-start;
     color: var(--text);
     font-size: 12px;
+}
+
+.remove-modal-content .remove-btn-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.cancel-btn-modal {
+    padding: 3px 4px;
+    background-color: var(--accent-blue);
+    color: var(--head-text);
+    border: none;
+    border-radius: 2px;
+    flex: 1;
+}
+.remove-btn-modal {
+    padding: 3px 4px;
+    background-color: red;
+    color: var(--head-text);
+    border: none;
+    border-radius: 2px;
+    flex: 1;
+}
+
+.cancel-btn-modal:hover,
+.remove-btn-modal:hover {
+    cursor: pointer;
+    opacity: 0.6;
 }
 
 @media (max-width: 768px) {
@@ -507,8 +541,8 @@ body{
     .account-overview td:nth-child(1)::before { content: "Account Name"; }
     .account-overview td:nth-child(2)::before { content: "Account Id"; }
     .account-overview td:nth-child(3)::before { content: "Balance"; }
-    .account-overview td:nth-child(4)::before { content: "Status"; }
-    .account-overview td:nth-child(5)::before { content: "Action"; }
+    .account-overview td:nth-child(4)::before { content: "Current Balance"; }
+    .account-overview td:nth-child(5)::before { content: "Net Profit"; }
 
     .trade-table td:nth-child(1)::before { content: "Date"; }
     .trade-table td:nth-child(2)::before { content: "Symbol"; }
@@ -518,6 +552,11 @@ body{
 }
 
 @media (max-width: 600px) {
+    #nav a {
+        flex: 1;
+        text-align: center;
+    }
+
     .account-nav {
         display: none;
     }

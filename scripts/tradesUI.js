@@ -3,12 +3,14 @@ import { saveInDb } from "./trades.js";
 export function openTradeModal(Id) {
     const accountId = Id;
     document.getElementById('modal').style.display = 'flex';
+    document.getElementById('modal').innerHTML = '';
     addTrade();
     saveTrade(accountId);
 }
 
 function addTrade() {
-    const modalDisplay = document.querySelector('.form-holder');
+    const modal = document.querySelector('.modal');
+    const formHolder = document.createElement('div');
 
     const title = document.createElement('h3');
     const form = document.createElement('form');
@@ -21,6 +23,11 @@ function addTrade() {
 
     title.textContent = 'Add Trade';
     form.id = 'tade-form';
+
+    Object.assign(formHolder, {
+        id: 'form-holder',
+        className: 'form-holder'
+    });
     Object.assign(symbolInput, {
         id: 'symbol',
         type: 'text',
@@ -91,9 +98,10 @@ function addTrade() {
     });
 
     form.appendChild(submitBtn);
-    modalDisplay.innerHTML = '';
-    modalDisplay.appendChild(title)
-    modalDisplay.appendChild(form);
+    formHolder.innerHTML = '';
+    formHolder.appendChild(title)
+    formHolder.appendChild(form);
+    modal.appendChild(formHolder);
 
 }
 
@@ -258,15 +266,14 @@ export function tradesPagnation(list) {
         }
     });
 
-    pageNum.textContent = `${currentPage} of ${totalPages}`;
-    prevBtn.textContent = '<';
-    nextBtn.textContent = '>';
-    btnContainer.appendChild(prevBtn);
-    btnContainer.appendChild(pageNum);
-    btnContainer.appendChild(nextBtn);
+    if(tradeList.length > rowsPerPage) {
+        pageNum.textContent = `${currentPage} of ${totalPages}`;
+        prevBtn.textContent = '<';
+        nextBtn.textContent = '>';
+        btnContainer.appendChild(prevBtn);
+        btnContainer.appendChild(pageNum);
+        btnContainer.appendChild(nextBtn);
+    }
     document.querySelector('.btn-con-trade').innerHTML = '';
     document.querySelector('.btn-con-trade').appendChild(btnContainer);
 }
-
-// I need  function to be imported from trades.js
-// I need AccountId to be passed to saveTrade function when saving a trade

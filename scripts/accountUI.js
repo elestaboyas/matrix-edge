@@ -1,5 +1,7 @@
 import { openTradeModal } from './tradesUI.js';
-import { saveAccount } from './account.js';
+import { saveAccount, removeAccount } from './account.js';
+import { singleAccPerformance } from './analytics.js';
+import { state } from './state.js';
 
 const showModal = document.getElementById('account-nav-mobile');
 const addAccButton = document.getElementById('add-account');
@@ -16,16 +18,16 @@ addAccButton.addEventListener('click', (e) => {
 });
 
 function addAccModal() {
-    const formHolder = document.querySelector('.form-holder');
-    formHolder.innerHTML = '';
+    const modal = document.querySelector('.modal');
+    modal.innerHTML = '';
     modal.style.display = 'flex';
     console.log('modal visible')
     addAccountForm();
 }
 
 function addAccountForm() {
-    const formHolder = document.querySelector('.form-holder');
-
+    const modal = document.querySelector('.modal');
+    const formHolder = document.createElement('div');
     const headerText = document.createElement('h3');
     const form = document.createElement('form');
     const accountName = document.createElement('input');
@@ -36,10 +38,14 @@ function addAccountForm() {
 
     headerText.textContent = 'Add Account';
 
+    Object.assign(formHolder, {
+        id: 'form-holder',
+        className: 'form-holder'
+    });
     Object.assign(form, {
         id: 'form',
         className: 'add-acc-form'
-    })
+    });
     Object.assign(accountName, {
         id: 'accName',
         type: 'text',
@@ -99,19 +105,21 @@ function addAccountForm() {
 
     formHolder.appendChild(headerText);
     formHolder.appendChild(form);
+    modal.appendChild(formHolder);
     
 }
 
-// from here going down is done!!
+async function addAccountToDOM(accountName, accountNumber, accountBalance, accountId) {
+    let {currentBalance, netProfit} = singleAccPerformance(accountId, accountBalance, state.trades);
 
-function addAccountToDOM(accountName, accountNumber, accountBalance, accountId) {
     const accountTable = document.getElementById('account-table');
 
     let row = document.createElement('tr');
     let nameCell = document.createElement('td');
     let numberCell = document.createElement('td');
     let balanceCell = document.createElement('td');
-    let statuscell = document.createElement('td');
+    let currentBalanceCell = document.createElement('td');
+    let netProfitcell = document.createElement('td');
     let actionCell = document.createElement('td');
     let actionLogBtn = document.createElement('button');
     let actionDelBtn = document.createElement('button');
@@ -119,7 +127,8 @@ function addAccountToDOM(accountName, accountNumber, accountBalance, accountId) 
     nameCell.textContent = accountName;
     numberCell.textContent = accountNumber;
     balanceCell.textContent = accountBalance;
-    statuscell.textContent = 'break even'; // to be udated based on the account balance after calculations
+    currentBalanceCell.textContent = currentBalance;
+    netProfitcell.textContent = netProfit; // to be udated based on the account balance after calculations
 
     actionLogBtn.classList.add('add-trade')
     actionLogBtn.textContent = 'Log';
@@ -127,13 +136,14 @@ function addAccountToDOM(accountName, accountNumber, accountBalance, accountId) 
     actionDelBtn.textContent = 'Del';
     actionCell.classList.add('actions');
 
-    actionLogBtn.addEventListener('click', () => {
+    actionLogBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         openTradeModal(accountId);
-        console.log(accountId);
     });
 
     actionDelBtn.addEventListener('click', () => {
-        console.log('Account to be deleted with ID:',accountId)
+        console.log('delete Pressed!!');
+        openRemoveModal(accountId, accountName)
     });
 
     actionCell.appendChild(actionLogBtn);
@@ -142,7 +152,8 @@ function addAccountToDOM(accountName, accountNumber, accountBalance, accountId) 
     row.appendChild(nameCell);
     row.appendChild(numberCell);
     row.appendChild(balanceCell);
-    row.appendChild(statuscell);
+    row.appendChild(currentBalanceCell);
+    row.appendChild(netProfitcell);
     row.appendChild(actionCell);
 
     accountTable.appendChild(row);
@@ -160,7 +171,7 @@ function renderPagnation(currentPage, accountList, rowsPerPage) {
         
         const accountName = account.name;
         const accountNumber = account.number;
-        const accountBalance = account.startingbalanceBalance;
+        const accountBalance = account.startingbalance;
 
         addAccountToDOM(accountName, accountNumber, accountBalance, accountId);
     });
@@ -192,7 +203,6 @@ export function accountPagnation(list) {
             tableBody.innerHTML = '';
             renderPagnation(currentPage, accountList, rowsPerPage);
             pageNum.textContent = `${currentPage} of ${totalPages}`
-            console.log('Previous Page', pageNum);
         }
     });
     nextBtn.addEventListener('click', (e) => {
@@ -202,16 +212,55 @@ export function accountPagnation(list) {
             tableBody.innerHTML = '';
             renderPagnation(currentPage, accountList, rowsPerPage);
             pageNum.textContent = `${currentPage} of ${totalPages}`
-            console.log('Next Page', pageNum);
         }
     });
 
-    pageNum.textContent = `${currentPage} of ${totalPages}`;
-    prevBtn.textContent = '<';
-    nextBtn.textContent = '>';
-    btnContainer.appendChild(prevBtn);
-    btnContainer.appendChild(pageNum);
-    btnContainer.appendChild(nextBtn);
+    if(accountList.length > rowsPerPage) {
+        pageNum.textContent = `${currentPage} of ${totalPages}`;
+        prevBtn.textContent = '<';
+        nextBtn.textContent = '>';
+        btnContainer.appendChild(prevBtn);
+        btnContainer.appendChild(pageNum);
+        btnContainer.appendChild(nextBtn);
+    };
     document.querySelector('.btn-con').innerHTML = '';
     document.querySelector('.btn-con').appendChild(btnContainer);
+}
+
+function openRemoveModal(accountId, accountName) {
+    
+    const removeModal = document.getElementById('modal');
+    removeModal.style.display = 'flex';
+    removeModal.innerHTML = '';
+
+    const removeModalContent = document.createElement('div');
+    const btnContainer = document.createElement('div');
+    const modalText = document.createElement('h4');
+    const removeBtn = document.createElement('button');
+    const cancelBtn = document.createElement('button');
+
+    removeModalContent.className = 'remove-modal-content';
+    btnContainer.className = 'remove-btn-container';
+    cancelBtn.className = 'cancel-btn-modal';
+    removeBtn.className = 'remove-btn-modal';
+    modalText.textContent = `Are you sure you want to remove ${accountName} account?`;
+    removeBtn.textContent = 'Remove';
+    cancelBtn.textContent = 'Cancel';
+
+    removeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        removeAccount(accountId);
+        removeModal.style.display = 'none';
+    });
+
+    cancelBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        removeModal.style.display = 'none';
+    });
+
+    btnContainer.appendChild(removeBtn);
+    btnContainer.appendChild(cancelBtn);
+    removeModalContent.appendChild(modalText);
+    removeModalContent.appendChild(btnContainer);
+    removeModal.appendChild(removeModalContent);
 }
