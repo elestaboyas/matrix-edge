@@ -1,4 +1,4 @@
-import { saveInDb } from "./trades.js";
+import { saveInDb, updateTrade } from "./trades.js";
 
 export function openTradeModal(Id) {
     const accountId = Id;
@@ -102,7 +102,6 @@ function addTrade() {
     formHolder.appendChild(title)
     formHolder.appendChild(form);
     modal.appendChild(formHolder);
-
 }
 
 function saveTrade(accountId) {
@@ -193,6 +192,7 @@ function addTradeToDom(date, symbol, type, size, profnLoss, tradekey) {
     row.addEventListener('dblclick', e => {
         e.preventDefault();
         console.log('Clicked trade with Id:', tradekey)
+        updateAcc(symbol, size, profnLoss, type, tradekey);
         //button to update trade. trade cannot be Deleted !!! only update will be available
     });
 
@@ -276,4 +276,138 @@ export function tradesPagnation(list) {
     }
     document.querySelector('.btn-con-trade').innerHTML = '';
     document.querySelector('.btn-con-trade').appendChild(btnContainer);
+}
+
+
+function updateAcc(symol, lot, pnl, type, tradeId) {
+    const modal = document.querySelector('.modal');
+    modal.style.display = 'flex';
+    modal.innerHTML = '';
+
+    const formHolder = document.createElement('div');
+
+    const title = document.createElement('h3');
+    const form = document.createElement('form');
+    const symbolInput = document.createElement('input');
+    const lotSizeInput = document.createElement('input');
+    const profitOrLossInput = document.createElement('input');
+    const submitBtn = document.createElement('button');
+    const radiolabel = document.createElement('label');
+    const closeModalBtn = document.createElement('span');
+
+    title.textContent = 'Update Trade';
+    form.id = 'tade-form';
+
+    Object.assign(formHolder, {
+        id: 'form-holder',
+        className: 'form-holder'
+    });
+    Object.assign(symbolInput, {
+        id: 'symbol',
+        type: 'text',
+        placeholder: 'Update Instrument e.g EURUSD',
+        value: symol,
+        required: true
+    });
+    Object.assign(lotSizeInput, {
+        id: 'lot-size',
+        type: 'text',
+        placeholder: 'Update Lot Size',
+        value: lot,
+        required: true
+    });
+    Object.assign(profitOrLossInput, {
+        id: 'profit-loss',
+        type: 'text',
+        placeholder: 'Update profit or Loss',
+        value: pnl,
+        required: true,
+        step: '0.01',
+    });
+    Object.assign(closeModalBtn, {
+        id: 'close-modal-btn',
+        textContent: 'X'
+    });
+    
+    
+    title.appendChild(closeModalBtn)
+    form.appendChild(symbolInput);
+    form.appendChild(lotSizeInput);
+    form.appendChild(profitOrLossInput);
+
+    const tradeOptions = ['BUY', 'SELL'];
+    const container = document.getElementById('radio-container');
+
+    tradeOptions.forEach(option => {
+        const label = document.createElement('label');
+        label.className = 'radio-label';
+  
+        const radio = document.createElement('input');
+
+        const uniqueId = `trade-type-${option.toLowerCase()}`;
+
+        Object.assign(radio, {
+            id: uniqueId,
+            type: 'radio',
+            name: 'trade-type',
+            value: option,
+            required: true,
+            className: 'trade-type'
+        });
+
+        const labelText = document.createTextNode(` ${option}`);
+        
+        label.appendChild(radio);
+        label.appendChild(labelText);
+        
+        form.appendChild(label);
+    });
+
+    closeModalBtn.addEventListener('click', e => {
+        e.preventDefault();
+        modal.style.display = 'none';
+    }); 
+
+    Object.assign(submitBtn, {
+        id: 'update-trade-btn',
+        type: 'submit',
+        textContent: 'Update Trade'
+    });
+
+    form.appendChild(submitBtn);
+    formHolder.innerHTML = '';
+    formHolder.appendChild(title)
+    formHolder.appendChild(form);
+    modal.appendChild(formHolder);
+    updateInDb(tradeId);
+}
+
+ function updateInDb(tradeId) {
+    const submitTradeBtn = document.getElementById('update-trade-btn');
+
+    submitTradeBtn.addEventListener('click', e => {
+        e.preventDefault();
+
+        const symbol = document.getElementById('symbol');
+        const entryType = document.querySelector('input[name="trade-type"]:checked');
+        const size = document.getElementById('lot-size');
+        const profnLoss = document.getElementById('profit-loss');
+
+        if (!entryType) {
+            alert("Please select BUY or SELL.");
+            return;
+        }
+
+        let newDetail = {
+            entryDate: Date.now(),
+            symbol: symbol.value.trim(),
+            type: entryType.value,
+            size: Number(size.value),
+            profnLoss: Number(profnLoss.value)
+        };
+
+        updateTrade(tradeId, newDetail);
+        document.getElementById('tade-form').reset();
+        document.getElementById('modal').style.display = 'none';
+    });
 }

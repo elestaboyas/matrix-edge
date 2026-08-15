@@ -1,5 +1,5 @@
 import { openTradeModal } from './tradesUI.js';
-import { saveAccount, removeAccount } from './account.js';
+import { saveAccount, removeAccount, updateAccount } from './account.js';
 import { singleAccPerformance } from './analytics.js';
 import { state } from './state.js';
 
@@ -106,7 +106,6 @@ function addAccountForm() {
     formHolder.appendChild(headerText);
     formHolder.appendChild(form);
     modal.appendChild(formHolder);
-    
 }
 
 async function addAccountToDOM(accountName, accountNumber, accountBalance, accountId) {
@@ -145,6 +144,11 @@ async function addAccountToDOM(accountName, accountNumber, accountBalance, accou
         console.log('delete Pressed!!');
         openRemoveModal(accountId, accountName)
     });
+
+    row.addEventListener('dblclick', (e) => {
+        console.log('edit Pressed!!', accountId);
+        updateAccForm(accountId, accountName, accountBalance)
+    })
 
     actionCell.appendChild(actionLogBtn);
     actionCell.appendChild(actionDelBtn);
@@ -263,4 +267,84 @@ function openRemoveModal(accountId, accountName) {
     removeModalContent.appendChild(modalText);
     removeModalContent.appendChild(btnContainer);
     removeModal.appendChild(removeModalContent);
+}
+
+function updateAccForm(accountId, accName, accBalance) {
+    const modal = document.querySelector('.modal');
+    modal.innerHTML = '';
+    modal.style.display = 'flex';
+    console.log('modal visible')
+
+    const formHolder = document.createElement('div');
+    const headerText = document.createElement('h3');
+    const form = document.createElement('form');
+    const accountName = document.createElement('input');
+    const accountBalance = document.createElement('input');
+    const submitFormBtn = document.createElement('button');
+    const closeModalBtn = document.createElement('span');
+
+    headerText.textContent = `Update ${accName} Account`;
+
+    Object.assign(formHolder, {
+        id: 'form-holder',
+        className: 'form-holder'
+    });
+    Object.assign(form, {
+        id: 'form',
+        className: 'add-acc-form'
+    });
+    Object.assign(accountName, {
+        id: 'accName',
+        type: 'text',
+        placeholder: 'Update Account name',
+        value: accName,
+        required: true
+    });
+
+    Object.assign(accountBalance, {
+        id: 'accBalance',
+        type: 'text',
+        placeholder: 'Update Balance',
+        value: accBalance,
+        required: true
+    });
+    Object.assign(submitFormBtn, {
+        id: 'add-acc-btn',
+        type: 'submit',
+        textContent: 'Update Account'
+    });
+    Object.assign(closeModalBtn, {
+        id: 'close-modal-btn',
+        textContent: 'X'
+    });
+
+    closeModalBtn.addEventListener('click', e => {
+        e.preventDefault();
+        modal.style.display = 'none';
+    }); 
+
+    submitFormBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const accNameInput = document.getElementById('accName');
+        const accBalanceInput = document.getElementById('accBalance');
+
+        let newDetail = {
+            name: accNameInput.value.trim(),
+            startingbalance: Number(accBalanceInput.value)
+        };
+
+        updateAccount(accountId, newDetail)
+        modal.style.display = 'none'
+        form.reset();
+    });
+
+    headerText.appendChild(closeModalBtn)
+    form.appendChild(accountName);
+    form.appendChild(accountBalance);
+    form.appendChild(submitFormBtn);
+
+    formHolder.appendChild(headerText);
+    formHolder.appendChild(form);
+    modal.appendChild(formHolder);
 }

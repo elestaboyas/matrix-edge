@@ -1,4 +1,4 @@
-import { db, accountRef, pushAccount, liveOnValue, removeFunc } from './firebase.js';
+import { db, accountRef, pushAccount, liveOnValue, removeFunc, updateFunc } from './firebase.js';
 import { state, refreshAPP } from "./state.js";
 import { removeTrades } from './trades.js';
 
@@ -49,6 +49,19 @@ export async function removeAccount(accountId) {
         removeTrades(state.trades, accountId);
     } catch (error) {
         console.error('error deleting account: ', error)
+    }
+}
+
+export async function updateAccount(accountId, newDatail) {
+    try {
+        console.log('account to be updated: ', accountId)
+        const updateRef = accountRef(db, `accounts/${accountId}`);
+        const updateAcc = await updateFunc(updateRef, newDatail);
+        console.log('account expected to be updated: ', accountId)
+
+        // removeTrades(state.trades, accountId);
+    } catch (error) {
+        console.error('error updating account: ', error)
     }
 }
 

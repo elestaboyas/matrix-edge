@@ -1,4 +1,4 @@
-import { db, accountRef, pushAccount, liveOnValue, removeFunc } from './firebase.js';
+import { db, accountRef, pushAccount, liveOnValue, removeFunc, updateFunc } from './firebase.js';
 import { state, refreshAPP } from "./state.js";
 
 export async function saveInDb(trade) {
@@ -54,6 +54,15 @@ export function removeTrades(tradeList, accountId) {
         }
     })
 };
+
+export async function updateTrade(tradeId, newData) {
+    try {
+        const tradeRef = accountRef(db, `trades/${tradeId}`);
+        const updateTrade = await updateFunc(tradeRef, newData);
+    } catch (error) {
+        console.error('error updating trade: ', error)
+    }
+}
 
 export function startQueryTrade() {
     queryTrade();

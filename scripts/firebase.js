@@ -19,3 +19,4 @@ export const accountRef = ref;
 export const pushAccount = push;
 export const liveOnValue = onValue;
 export const removeFunc = remove;
+export const updateFunc = update;
