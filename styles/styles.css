@@ -361,6 +361,41 @@ body{
     color: var(--text);
 }
 
+
+/*************dashboard screen*************/
+
+#dashboard {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.dashBoard-container {
+    padding: 0 10%;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.dashBoard-container .dash-content-chart {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.dash-content-chart div,
+.dash-content-chart canvas {
+    background-color: var(--primary-bg);
+    color: var(--text);
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    height: 100px;
+    line-height: 1.6;
+    position: relative;
+}
+
 /******** modal ********/
 
 .modal {

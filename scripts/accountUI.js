@@ -2,6 +2,7 @@ import { openTradeModal } from './tradesUI.js';
 import { saveAccount, removeAccount, updateAccount } from './account.js';
 import { singleAccPerformance } from './analytics.js';
 import { state } from './state.js';
+import { getAccNameProfits, resetAccData } from './visuals.js';
 
 const showModal = document.getElementById('account-nav-mobile');
 const addAccButton = document.getElementById('add-account');
@@ -110,6 +111,9 @@ function addAccountForm() {
 
 async function addAccountToDOM(accountName, accountNumber, accountBalance, accountId) {
     let {currentBalance, netProfit} = singleAccPerformance(accountId, accountBalance, state.trades);
+    let accountData = []
+    
+    getAccNameProfits(accountName, netProfit);
 
     const accountTable = document.getElementById('account-table');
 
@@ -197,6 +201,7 @@ export function accountPagnation(list) {
     let totalPages = Math.ceil(accountList.length / rowsPerPage);
 
     tableBody.innerHTML = '';
+    resetAccData(); // Reset account data before rendering
     renderPagnation(currentPage, accountList, rowsPerPage)
 
     prevBtn.addEventListener('click', (e) => {
