@@ -1,6 +1,6 @@
 import { startQueryAccounts } from './account.js';
 import { startQueryTrade } from './trades.js';
-import { accountChart } from './visuals.js';
+import { accountChart, performanceChart, doughnutChart } from './visuals.js';
 
 
 const dashboardTap = document.getElementById('dashboad-tap');
@@ -23,7 +23,9 @@ function showScreen(targetScreen) {
 dashboardTap.addEventListener('click', (e) => {
     e.preventDefault(); 
     showScreen(dashboardScreen);
-    accountChart(); 
+    accountChart();
+    performanceChart();
+    doughnutChart();
     });
 
 accountTap.addEventListener('click', (e) => {

@@ -146,7 +146,7 @@ function addTradeToDom(date, symbol, type, size, profnLoss, tradekey) {
     const profnLossCell = document.createElement('td');
     const resultCell = document.createElement('td');
 
-    dateCell.textContent = date;
+    dateCell.textContent = new Date(date).toISOString().split('T')[0];
     symbolCell.textContent = symbol;
     typeCell.textContent = type;
     sizeCell.textContent = size;
@@ -210,13 +210,12 @@ function renderPagnation(currentPage, tradeList, rowsPerPage) {
     let start = (currentPage - 1) * rowsPerPage;
     let end = start + rowsPerPage;
     let tradeRows = tradeList.slice(start, end);
-
     tradeRows.forEach(tradeDict => {
         const tradeId = tradeDict.tradeId;
         const trade = tradeDict.allTrade;
 
         const accountId = trade.accountId;
-        const date = new Date(trade.entryDate).toLocaleDateString();
+        const date = trade.entryDate;
         const size = trade.size;
         const type = trade.type;
         const symbol = trade.symbol;

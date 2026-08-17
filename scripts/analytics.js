@@ -1,4 +1,5 @@
 import { renderAccStats, renderTradesStats } from "./dashboardUI.js";
+import { resetTradeData ,getperformanceOverTime } from "./visuals.js";
 
 function accountPerformance(accountList, tradesList) {
     const numOfAccount = accountList.length;
@@ -16,6 +17,7 @@ function accountPerformance(accountList, tradesList) {
     tradesList.forEach(tradesDict => {
         const tradeId = tradesDict.tradeId;
         const trade = tradesDict.allTrade;
+        getperformanceOverTime(trade.entryDate, trade.profnLoss);
 
         if (trade.profnLoss > 0) {
             totalProfit += Number(trade.profnLoss);
@@ -82,7 +84,8 @@ export function singleAccPerformance(accountId, accountBalance, allTrades) {
 }
 
 export function startAnalytics(allAccount, allTrades) {
-    
+    resetTradeData();
+
     accountPerformance(allAccount, allTrades);
     singleAccPerformance(allTrades);
 }

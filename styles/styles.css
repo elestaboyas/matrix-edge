@@ -378,13 +378,17 @@ body{
 .dashBoard-container .dash-content-chart {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    /* display: flex;
+    justify-content: spaace-around;
+    align-items: center; */
     gap: 10px;
     margin: 10px 0;
     width: 100%;
 }
 
-.dash-content-chart div,
-.dash-content-chart canvas {
+
+/* .dash-content-chart canvas, */
+.dash-content-chart div {
     background-color: var(--primary-bg);
     color: var(--text);
     padding: 20px;
@@ -395,6 +399,12 @@ body{
     line-height: 1.6;
     position: relative;
 }
+
+/* .dash-content-chart canvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+} */
 
 /******** modal ********/
 
