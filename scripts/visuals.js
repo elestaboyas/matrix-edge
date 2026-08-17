@@ -31,6 +31,36 @@ export function accountChart() {
                     label: 'Net profit',
                     data: profits
                 }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Net Profit by Account'
+                    },
+
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Net Profit: $${context.raw.toLocaleString()}`;
+                            }
+                        }
+                    }
+                },
+
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value) {
+                                return `$${value.toLocaleString()}`;
+                            }
+                        }
+                    }
+                }
             }
         });
 
@@ -93,6 +123,36 @@ export function performanceChart() {
                     label: 'Cumulative Profit',
                     data: profits,
                 }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Cumulative Profit Over Time'
+                    },
+
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Cumulative P/L: $${context.raw.toLocaleString()}`;
+                            }
+                        }
+                    }
+                },
+
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value) {
+                                return `$${value.toLocaleString()}`;
+                            }
+                        }
+                    }
+                }
             }
         })
 
@@ -129,7 +189,39 @@ export function doughnutChart() {
                     label: 'Profits Contribution',
                     data: profits
                 }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Profit Contribution by Account'
+                    },
+
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw;
+
+                                const total = context.dataset.data.reduce(
+                                    (sum, value) => sum + value,
+                                    0
+                                );
+
+                                const percentage = total > 0
+                                    ? ((value / total) * 100).toFixed(1)
+                                    : 0;
+
+                                return `${context.label}: $${value.toLocaleString()} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
             }
+
         });
 
         canvasContainer.innerHTML = '';

@@ -36,13 +36,16 @@ function addTrade() {
     });
     Object.assign(lotSizeInput, {
         id: 'lot-size',
-        type: 'text',
+        type: 'number',
+        step: 'any',
+        min: 0,
         placeholder: 'Lot Size',
         required: true
     });
     Object.assign(profitOrLossInput, {
         id: 'profit-loss',
-        type: 'text',
+        type: 'number',
+        step: 'any',
         placeholder: 'Trade profit or Loss',
         required: true,
         step: '0.01',
@@ -110,11 +113,27 @@ function saveTrade(accountId) {
     submitTradeBtn.addEventListener('click', e => {
         e.preventDefault();
 
-        const symbol = document.getElementById('symbol');
+        const symbolInput = document.getElementById('symbol');
         const entryType = document.querySelector('input[name="trade-type"]:checked');
-        const size = document.getElementById('lot-size');
-        const profnLoss = document.getElementById('profit-loss');
+        const sizeInput = document.getElementById('lot-size');
+        const profnLossInput = document.getElementById('profit-loss');
 
+        const symbol = symbolInput.value.trim();
+        const size = Number(sizeInput.value);
+        const profnLoss = Number(profnLossInput.value);
+
+        if (!symbol) {
+            alert("Please enter symbol.");
+            return;
+        }
+        if (!Number.isFinite(size) || size <= 0) {
+            alert("Please enter size");
+            return;
+        }
+        if (!Number.isFinite(profnLoss)) {
+            alert("P/L must be a valid number");
+            return;
+        }
         if (!entryType) {
             alert("Please select BUY or SELL.");
             return;
@@ -123,10 +142,10 @@ function saveTrade(accountId) {
         let newTrade = {
             accountId: accountId,
             entryDate: Date.now(),
-            symbol: symbol.value.trim(),
+            symbol: symbol.toUpperCase(),
             type: entryType.value,
-            size: Number(size.value),
-            profnLoss: Number(profnLoss.value)
+            size: size,
+            profnLoss: profnLoss
         };
 
         saveInDb(newTrade);
@@ -150,7 +169,7 @@ function addTradeToDom(date, symbol, type, size, profnLoss, tradekey) {
     symbolCell.textContent = symbol;
     typeCell.textContent = type;
     sizeCell.textContent = size;
-    profnLossCell.textContent = `$${profnLoss}`;
+    profnLossCell.textContent = `$${Number(profnLoss).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
     if(profnLoss > 0) {
         const winResult = document.createElement('p');
@@ -310,14 +329,17 @@ function updateAcc(symol, lot, pnl, type, tradeId) {
     });
     Object.assign(lotSizeInput, {
         id: 'lot-size',
-        type: 'text',
+        type: 'number',
+        step: 'any',
+        min: 0,
         placeholder: 'Update Lot Size',
         value: lot,
         required: true
     });
     Object.assign(profitOrLossInput, {
         id: 'profit-loss',
-        type: 'text',
+        type: 'number',
+        step: 'any',
         placeholder: 'Update profit or Loss',
         value: pnl,
         required: true,
@@ -387,10 +409,27 @@ function updateAcc(symol, lot, pnl, type, tradeId) {
     submitTradeBtn.addEventListener('click', e => {
         e.preventDefault();
 
-        const symbol = document.getElementById('symbol');
+        const symbolInput = document.getElementById('symbol');
         const entryType = document.querySelector('input[name="trade-type"]:checked');
-        const size = document.getElementById('lot-size');
-        const profnLoss = document.getElementById('profit-loss');
+        const sizeInput = document.getElementById('lot-size');
+        const profnLossInput = document.getElementById('profit-loss');
+
+        const symbol = symbolInput.value.trim();
+        const size = Number(sizeInput.value);
+        const profnLoss = Number(profnLossInput.value);
+
+        if (!symbol) {
+            alert("Please enter symbol.");
+            return;
+        }
+        if (!Number.isFinite(size) || size <= 0) {
+            alert("Please enter size");
+            return;
+        }
+        if (!Number.isFinite(profnLoss)) {
+            alert("P/L must be a valid number");
+            return;
+        }
 
         if (!entryType) {
             alert("Please select BUY or SELL.");
@@ -399,10 +438,10 @@ function updateAcc(symol, lot, pnl, type, tradeId) {
 
         let newDetail = {
             entryDate: Date.now(),
-            symbol: symbol.value.trim(),
+            symbol: symbol.toUpperCase(),
             type: entryType.value,
-            size: Number(size.value),
-            profnLoss: Number(profnLoss.value)
+            size: size,
+            profnLoss: profnLoss
         };
 
         updateTrade(tradeId, newDetail);

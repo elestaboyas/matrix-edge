@@ -9,7 +9,7 @@ export function renderAccStats(numOfAcc, winRate, currentBalance) {
     const statsList = [
         {target:'num-account', title: 'Number Of Account', value: numOfAcc},
         {target:'gain-rate', title: 'Win Rate', value: `${winRate}%`},
-        {target:'current-balance', title: 'Current Balance', value: `$${currentBalance}`},
+        {target:'current-balance', title: 'Current Balance', value: `$${Number(currentBalance).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`},
     ];
 
     const cardContainer = document.querySelector('.account-stat');
@@ -57,7 +57,7 @@ export function renderTradesStats(totalTrdes, winTrades, lossTrades, totalProfit
         {target:'num-trades', title: 'Total Trades', value: totalTrdes},
         {target:'num-win', title: 'Winning Trades', value: winTrades},
         {target:'num-loss', title: 'Losing Trades', value: lossTrades},
-        {target:'net-profit', title: 'Net Profits', value: `$${totalProfits}`},
+        {target:'net-profit', title: 'Net Profits', value: `$${Number(totalProfits).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`},
     ];
 
     const cardContainer = document.querySelector('.trade-stats');

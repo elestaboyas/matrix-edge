@@ -87,10 +87,28 @@ function addAccountForm() {
         const accIdInput = document.getElementById('accNumber');
         const accBalanceInput = document.getElementById('accBalance');
 
+        const name = accNameInput.value.trim();
+        const number = accIdInput.value.trim();
+        const startingBalance = Number(accBalanceInput.value);
+
+        if (!name) {
+            alert('please fill in te name!');
+            return;
+        }
+        if (!number) {
+            alert('please fill in te Account Id!');
+            return;
+        }
+        if (!Number.isFinite(startingBalance) || startingBalance <= 0) {
+            alert('Starting balance must be a number greater than 0.');
+            return;
+        }
+
+
         let newAccount = {
-            name: accNameInput.value.trim(),
-            number: accIdInput.value.trim(),
-            startingbalance: Number(accBalanceInput.value)
+            name: name,
+            number: number,
+            startingbalance: startingBalance
         };
 
         saveAccount(newAccount);
@@ -129,9 +147,9 @@ async function addAccountToDOM(accountName, accountNumber, accountBalance, accou
 
     nameCell.textContent = accountName;
     numberCell.textContent = accountNumber;
-    balanceCell.textContent = accountBalance;
-    currentBalanceCell.textContent = currentBalance;
-    netProfitcell.textContent = netProfit; // to be udated based on the account balance after calculations
+    balanceCell.textContent = `$${Number(accountBalance).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    currentBalanceCell.textContent = `$${Number(currentBalance).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    netProfitcell.textContent = `$${Number(netProfit).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
     actionLogBtn.classList.add('add-trade')
     actionLogBtn.textContent = 'Log';
@@ -334,9 +352,22 @@ function updateAccForm(accountId, accName, accBalance) {
         const accNameInput = document.getElementById('accName');
         const accBalanceInput = document.getElementById('accBalance');
 
+        const name = accNameInput.value.trim();
+        const startingBalance = Number(accBalanceInput.value);
+
+        if (!name) {
+            alert('please fill in te name!');
+            return;
+        }
+        
+        if (!Number.isFinite(startingBalance) || startingBalance <= 0) {
+            alert('Starting balance must be a number greater than 0.');
+            return;
+        }
+
         let newDetail = {
-            name: accNameInput.value.trim(),
-            startingbalance: Number(accBalanceInput.value)
+            name: name,
+            startingbalance: startingBalance
         };
 
         updateAccount(accountId, newDetail)
