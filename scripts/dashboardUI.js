@@ -1,7 +1,7 @@
 const myImg = {
-    up: "url('/assets/images/img-up.png')",
-    down: "url('/assets/images/img-down.png')",
-    even: "url('/assets/images/img-breakEven.png')"
+    up: "url('./assets/images/img-up.png')",
+    down: "url('./assets/images/img-down.png')",
+    even: "url('./assets/images/img-breakEven.png')"
 }
 
 export function renderAccStats(numOfAcc, winRate, currentBalance) {

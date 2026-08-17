@@ -538,7 +538,7 @@ body{
         padding: 10px;
     }
 
-    /* .account-stat, */
+    .account-stat,
     .trade-stats {
         flex-direction: column;
     }
