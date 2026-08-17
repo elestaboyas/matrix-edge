@@ -15,14 +15,17 @@ const tabs = [dashboardTap, accountTap, tradeTap];
 const screens = [dashboardScreen, accountScreen, tradeScreen];
 
 
-function showScreen(targetScreen) {
+function showScreen(targetScreen, activeScreen) {
     screens.forEach(screen => screen.classList.add('hide-screen'));
     targetScreen.classList.remove('hide-screen');
+
+    tabs.forEach(screen => screen.classList.remove('active-tab'))
+    activeScreen.classList.add('active-tab')
 }
 
 dashboardTap.addEventListener('click', (e) => {
     e.preventDefault(); 
-    showScreen(dashboardScreen);
+    showScreen(dashboardScreen, dashboardTap);
     accountChart();
     performanceChart();
     doughnutChart();
@@ -30,13 +33,12 @@ dashboardTap.addEventListener('click', (e) => {
 
 accountTap.addEventListener('click', (e) => {
     e.preventDefault(); 
-    showScreen(accountScreen); 
+    showScreen(accountScreen, accountTap); 
     });
 
 tradeTap.addEventListener('click', (e) => {
     e.preventDefault(); 
-    showScreen(tradeScreen);
-    //queryTrade(); new function will come from tradeUI.js
+    showScreen(tradeScreen, tradeTap);
     });
 
 startQueryAccounts();

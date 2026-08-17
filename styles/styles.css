@@ -133,9 +133,9 @@ body{
 .account-stat {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
-    gap: 15px;
+    gap: 10px;
     box-sizing: border-box;
+    margin-bottom: 10px;
 }
 
 .account-main .stat-card {
@@ -545,8 +545,6 @@ body{
 
     .account-main .stat-card {
         margin-right: 0;
-        margin-bottom: 10px;
-        height: 90px;
         padding: 10px;
     }
 
@@ -630,8 +628,13 @@ body{
 
 .hide-screen {
     display: none !important;
-    border-bottom: none;
-    background-color: transparent; 
 }
+
+.active-tab {
+    border-bottom: 2px solid var(--accent-blue);
+    background-color: var(--secondary-bg);
+    color: var(--accent-blue) !important;
+}
+
 
 
