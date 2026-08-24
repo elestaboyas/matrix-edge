@@ -1,0 +1,110 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    background-color: var(--secondary-bg);
+}
+
+:root {
+    --primary-bg: #1e1f26;
+    --secondary-bg: #2A2C36;
+    --dark-blue: #232631;
+    --text: #cacace;
+    --accent-blue: #2F80ED;
+    --accent-green: #27AE60;
+    --head-text: #ffffff;
+}
+
+.logo {
+    background-color: black;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+}
+
+.logo h1 {
+    color: white;
+    font-size: 24px;
+    line-height: 50px;
+    font-weight: bold;
+}
+
+.logo h1 span {
+    color: var(--accent-blue);
+}
+
+.main-container {
+    padding: 0 5%;
+}
+
+.form-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container .form-holder {
+    margin:8rem auto;
+    width: 100%;
+    max-width: 500px;
+    background-color: var(--primary-bg);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.form-holder h2 {
+    text-align: center;
+    color: var(--accent-blue);
+}
+
+.form-holder form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.form-holder form input, 
+.form-holder form button {
+    width: 100%;
+    padding: 0.5rem 0.3rem;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-holder form input {
+    background-color: var(--dark-blue);
+    color: var(--text);
+    outline: none;
+}
+
+.form-holder form input:focus {
+    border: 1px solid var(--accent-blue);
+}
+
+.form-holder form button {
+    background-color: var(--accent-blue);
+    color: var(--head-text);
+    transition: all 0.2s ease;
+}
+
+.form-holder form a {
+    text-decoration: none;
+    color: var(--accent-blue);
+    font-size: small;
+    transition: all 0.2s ease;
+}
+
+.form-holder form button:hover,
+.form-holder form a:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}

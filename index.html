@@ -8,104 +8,108 @@
 </head>
 <body>
     <header>
-        <div class="logo"><h1>Matrix<span>Edge</span></h1></div>
-        <nav id="nav">
+        <div class="logo"><h1>Matrix<span>Edge</span></h1> <h2 class="header-menu">≡</h2></div>
+        <nav id="nav" class="main-hide">
             <a id="dashboad-tap" href="#">Dashboard</a>
             <a id="account-tap" href="#">Account</a>
             <a id="trade-tap" href="#">Trades</a>
         </nav>
+        <!-- <p id="logged-user">user email</P> -->
     </header>
 
-    <section id="account" >
-        <div class="account-nav">
-            <button id="add-account">Add Account</button>
-            <button id="account-list">Account List</button>
-        </div>
+    <section class="main main-hide">
+        <section id="account" >
+            <div class="account-nav">
+                <button id="add-account">Add Account</button>
+                <button id="account-list">Account List</button>
+            </div>
 
-        <div class="account-main">
-            <button id="account-nav-mobile">+</button>
-            <div class="account-container">
-                <div class="account-stat">
+            <div class="account-main">
+                <button id="account-nav-mobile">+</button>
+                <div class="account-container">
+                    <div class="account-stat">
+                    </div>
+
+                    <div class="account-overview">
+                        <h2>Accounts Overview</h2>
+                        <table>
+                            
+                            <thead>
+                                
+                                    <th>Account Name</th>
+                                    <th>Account Id</th>
+                                    <th>Balance</th>
+                                    <th>Current Balance</th>
+                                    <th>Net Profit</th>
+                                    <th>Action</th>
+                                
+                            </thead>
+                            
+                            <tbody id="account-table">
+                            </tbody>
+
+                        </table>
+                        <div class="btn-con"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard" class="hide-screen">
+            <h1>This is Dashoboard screen</h1>
+            <div class="dashBoard-container">
+                <div class="dash-content-chart">
+                    <div class="bar">Hello Chart</div>
+                    <div class="line">Hello Chart</div>
+                    <div class="pie">Hello Chart</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="trade" class="hide-screen">
+            <div class="trade-container">
+                <div class="trade-stats">
                 </div>
 
-                <div class="account-overview">
-                    <h2>Accounts Overview</h2>
+                <div class="trade-table">
                     <table>
-                        
                         <thead>
-                            
-                                <th>Account Name</th>
-                                <th>Account Id</th>
-                                <th>Balance</th>
-                                <th>Current Balance</th>
-                                <th>Net Profit</th>
-                                <th>Action</th>
-                            
+                            <th>date</th>
+                            <th>symbol</th>
+                            <th>Type</th>
+                            <th>size</th>
+                            <th>P/L</th>
+                            <th>Result</th>
                         </thead>
-                        
-                        <tbody id="account-table">
-                        </tbody>
 
+                        <tbody id="trade-table-body">
+                            <tr>
+                                <td>04/05/2026</td>
+                                <td>EURUSD</td>
+                                <td>BUY</td>
+                                <td>0.15</td>
+                                <td>$75</td>
+                                <td>
+                                    <p>Win</p>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
-                    <div class="btn-con"></div>
+                    <div class="btn-con-trade"></div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="dashboard" class="hide-screen">
-        <h1>This is Dashoboard screen</h1>
-        <div class="dashBoard-container">
-            <div class="dash-content-chart">
-                <div class="bar">Hello Chart</div>
-                <div class="line">Hello Chart</div>
-                <div class="pie">Hello Chart</div>
+
+        <div class="menu-modal" id="menu-modal">
+        </div>
+        <div class="modal" id="modal">
+            <div class="form-holder" id="form-holder">
             </div>
         </div>
     </section>
-
-    <section id="trade" class="hide-screen">
-        <div class="trade-container">
-            <div class="trade-stats">
-            </div>
-
-            <div class="trade-table">
-                <table>
-                    <thead>
-                        <th>date</th>
-                        <th>symbol</th>
-                        <th>Type</th>
-                        <th>size</th>
-                        <th>P/L</th>
-                        <th>Result</th>
-                    </thead>
-
-                    <tbody id="trade-table-body">
-                        <tr>
-                            <td>04/05/2026</td>
-                            <td>EURUSD</td>
-                            <td>BUY</td>
-                            <td>0.15</td>
-                            <td>$75</td>
-                            <td>
-                                <p>Win</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="btn-con-trade"></div>
-            </div>
-        </div>
-    </section>
-
-
-
-    <div class="modal" id="modal">
-        <div class="form-holder" id="form-holder">
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="scripts/app.js" type="module"></script>
+    <!-- <script src="scripts/auth.js" type="module"></script> -->
     
 </html>

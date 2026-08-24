@@ -1,9 +1,15 @@
-import { db, accountRef, pushAccount, liveOnValue, removeFunc, updateFunc } from './firebase.js';
+import { db, accountRef, pushAccount, liveOnValue, removeFunc, updateFunc, auth } from './firebase.js';
 import { state, refreshAPP } from "./state.js";
 
 export async function saveInDb(trade) {
+
+    const user = auth.currentUser;
+    if (!user) {
+        console.error('no user found saving trades')
+        return
+    }
     try {
-        const tradeRef = accountRef(db, 'trades');
+        const tradeRef = accountRef(db, `users/${user.uid}/trades`);
         const pushtrade = await pushAccount(tradeRef, trade);
         console.log('trade saved') ;
     } catch (error) {
@@ -12,7 +18,13 @@ export async function saveInDb(trade) {
 }
 
  export function queryTrade() {
-    const tradeRef = accountRef(db, 'trades');
+    const user = auth.currentUser;
+    if (!user) {
+        console.error('no user found saving trades')
+        return
+    }
+
+    const tradeRef = accountRef(db, `users/${user.uid}/trades`);
     state.trades = [];
     const tableBody = document.getElementById('trade-table-body');
     tableBody.innerHTML = '';
@@ -40,6 +52,11 @@ export async function saveInDb(trade) {
 
 export function removeTrades(tradeList, accountId) {
     //const ref = accountRef(db, `trades/${tradeId}`);
+    const user = auth.currentUser;
+    if (!user) {
+        console.error('no user found saving trades')
+        return
+    }
     if(!tradeList) {return};
     let count = 0;
     tradeList.forEach(tradeDict => {
@@ -47,7 +64,7 @@ export function removeTrades(tradeList, accountId) {
         const tradeId = tradeDict.allTrade;
 
         if (tradeId.accountId === accountId) {
-            const tradeRef = accountRef(db, `trades/${tradeDict.tradeId}`);
+            const tradeRef = accountRef(db, `users/${user.uid}/trades/${tradeDict.tradeId}`);
             removeFunc(tradeRef);
             count++;
             console.log(tradeDict.tradeId, count) 
@@ -56,8 +73,14 @@ export function removeTrades(tradeList, accountId) {
 };
 
 export async function updateTrade(tradeId, newData) {
+    const user = auth.currentUser;
+    if (!user) {
+        console.error('no user found saving trades')
+        return
+    }
+
     try {
-        const tradeRef = accountRef(db, `trades/${tradeId}`);
+        const tradeRef = accountRef(db, `users/${user.uid}/trades/${tradeId}`);
         const updateTrade = await updateFunc(tradeRef, newData);
     } catch (error) {
         console.error('error updating trade: ', error)

@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import { getDatabase, ref, set, push, onValue, get, update, remove } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAzgyBv5YvZJrYVYjGhoU9fWw7QjBn810I",
@@ -14,9 +15,18 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
+export const auth = getAuth(app);
 
 export const accountRef = ref;
 export const pushAccount = push;
 export const liveOnValue = onValue;
 export const removeFunc = remove;
 export const updateFunc = update;
+
+export const createUser = createUserWithEmailAndPassword;
+export const signInUser = signInWithEmailAndPassword;
+export const userSingOut = signOut;
+
+export function loggedInState(authInstance, callback) {
+    return onAuthStateChanged(authInstance, callback);
+};
